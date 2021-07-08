@@ -15,7 +15,7 @@ npm run serve
 npm run build
 ```
 
-### Compiles and minifies for production
+### Description
 ```
 vue, vuex, composable mixin only (cause using vuex)
 ```
