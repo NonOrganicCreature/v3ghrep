@@ -7,7 +7,7 @@
 </template>
 <script>
 import { mapActions } from 'vuex'
-import useDebounceMethod from '@/composables'
+import useDebounceMethod from '@/composables/mixin'
 export default {
     name: 'Search',
     components: {},
@@ -23,11 +23,16 @@ export default {
             setRepositories: 'repositories/setRepositories'
         }),
         onInputSearch(inputValue) {
-            this.debounce((function() {
-                this.setSearchValue(inputValue)
-                this.setRepositories()
-            }).bind(this), 1000)()  
+            this.setSearchValue(inputValue)
+            this.debouncedSearch()
         },
+    },
+    computed: {
+        debouncedSearch() {
+            return this.debounce((function() {
+                this.setRepositories()
+            }), 1000)
+        }
     }
 }
 </script>
