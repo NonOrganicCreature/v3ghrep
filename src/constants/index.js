@@ -1,0 +1,4 @@
+const REPOSITORIES_PER_PAGE = 5
+export {
+    REPOSITORIES_PER_PAGE
+}
