@@ -1,7 +1,7 @@
 <template>
     <div class="home">
         <search />
-        <list />
+        <list :cardsType="'repository'" />
     </div>
 </template>
 

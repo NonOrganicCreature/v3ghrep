@@ -2,12 +2,13 @@
     <div class="list">
         <div class="list-inner">
             <card
-                v-for="repository in repositories"
+                v-for="repository in cardsByType"
                 :key="repository.id"
                 :cardInfo="repository"
+                :cardType="cardsType"
             />
         </div>
-        <pagination v-show="repositories.length > 0" class="pagination-outer" />
+        <pagination v-show="cardsByType.length > 0" class="pagination-outer" />
     </div>
 </template>
 <script>
@@ -17,11 +18,22 @@ import Pagination from "@/components/Pagination";
 export default {
     name: "RepositoresList",
     components: { Card, Pagination },
+    props: {
+        cardsType: {
+            type: String,
+            default: 'repository'
+        }
+    },
     computed: {
         ...mapGetters({
             repositories: "repositories/getRepositories",
+            forks: "repositories/getForks",
             selectedPage: 'pagination/getSelectedPage'
         }),
+        cardsByType() {
+            console.log(this.cardsType)
+            return this.cardsType === 'repository' ? this.repositories : this.forks
+        }
     },
     methods: {
         ...mapActions({

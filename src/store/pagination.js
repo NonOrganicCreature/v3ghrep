@@ -38,12 +38,18 @@ export default {
             commit('SET_SELECTED_PAGE', page)
         },
         async setTotalPage({ commit, rootGetters }) {
-            const response =
-                await ApiInstance
-                    .get(`/users/${rootGetters['search/getSearchValue']}`)
-
-            console.log(response)
-            commit('SET_TOTAL_ITEMS_PAGE', response.data.public_repos)
+            try {
+                const response =
+                    await ApiInstance
+                        .get(`/users/${rootGetters['search/getSearchValue']}`)
+    
+                commit('SET_TOTAL_ITEMS_PAGE', response.data.public_repos)
+            } catch(error) {
+                console.log(error)
+            }
+        },
+        setForkTotalPage({ commit }, value) {
+            commit('SET_TOTAL_ITEMS_PAGE', value)
         },
 
     }

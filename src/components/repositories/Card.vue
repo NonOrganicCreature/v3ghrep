@@ -1,5 +1,8 @@
 <template>
-    <div class="card">
+    <router-link
+        class="card"
+        :to="{ name: 'RepositoryForks', params: { id: preparedCardInfo.id } }"
+    >
         <div class="card-inner">
             <div class="card-info">
                 <div class="card-info__item title">
@@ -19,11 +22,11 @@
                 </div>
             </div>
         </div>
-    </div>
+    </router-link>
 </template>
 <script>
 export default {
-    name: "RepositoresCard",
+    name: "RepositoriesCard",
     components: {},
     props: {
         cardInfo: {
@@ -31,6 +34,10 @@ export default {
             type: Object,
             default: () => ({}),
         },
+        cardType: {
+            type: String,
+            default: 'repository'
+        }
     },
     computed: {
         preparedCardInfo() {
@@ -51,6 +58,8 @@ export default {
     border-radius: 8px;
     width: 300px;
     cursor: pointer;
+    text-decoration: none;
+    color: #fff;
     &-inner {
         display: flex;
         flex-flow: column nowrap;
@@ -62,6 +71,7 @@ export default {
         flex-flow: column nowrap;
         height: 100%;
         justify-content: space-evenly;
+        color: #000;
         &__item {
             &.title {
                 font-weight: 700;
