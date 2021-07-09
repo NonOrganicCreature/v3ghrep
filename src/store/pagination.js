@@ -2,43 +2,49 @@ import { ApiInstance } from '@/api'
 export default {
     namespaced: true,
     state: {
-        currentPage: 1,
         selectedPage: 1,
-        maxPageCount: 5,
-        totalPageCount: 10
+        itemsPerPage: 5,
+        totalItemsCount: 10
     },
     mutations: {
-        SET_CURRENT_PAGE(state, currentPage) {
-            state.currentPage = currentPage
-        },
         SET_SELECTED_PAGE(state, selectedPage) {
             state.selectedPage = selectedPage
         },
-        SET_TOTAL_PAGE(state, totalPageCount) {
-            state.totalPageCount = totalPageCount
+        SET_TOTAL_ITEMS_PAGE(state, totalItemsCount) {
+            state.totalItemsCount = totalItemsCount
         },
     },
     getters: {
-        getCurrentPage: state => state.currentPage,
+        getSelectedPage: state => state.selectedPage,
+        getItemsPerPage: state => state.itemsPerPage,
         getPagesToShow: state =>
-            [...Array(state.maxPageCount).keys()]
-                .map(arrayIndexKey => (arrayIndexKey + 1) + currentPage)
+            [...Array(Math.ceil(state.totalItemsCount / state.itemsPerPage)).keys()]
+                .map(arrayIndexKey => arrayIndexKey + 1)
 
     },
     actions: {
-        setCurrentPage({ commit }, page) {
-            commit('SET_CURRENT_PAGE', page)
+        setSelectedPage({ state, commit }, page) {
+            console.log(page)
+            if (page <= 1) {
+                commit('SET_SELECTED_PAGE', 1)
+                return
+            }
+
+            const totalPageCount = Math.ceil(state.totalItemsCount / state.itemsPerPage)
+            if (page >= totalPageCount) {
+                commit('SET_SELECTED_PAGE', totalPageCount)
+                return
+            }
+            commit('SET_SELECTED_PAGE', page)
         },
-        setSelectedPage({ commit }, selectedPage) {
-            commit('SET_SELECTED_PAGE', selectedPage)
+        async setTotalPage({ commit, rootGetters }) {
+            const response =
+                await ApiInstance
+                    .get(`/users/${rootGetters['search/getSearchValue']}`)
+
+            console.log(response)
+            commit('SET_TOTAL_ITEMS_PAGE', response.data.public_repos)
         },
-        async setTotalPage({ commit }) {
-            const response = 
-                    await ApiInstance
-                    .get(`/users/${rootGetters['search/searchValue']}`)
-                    
-            commit('SET_TOTAL_PAGE', response.data.public_repos)
-        },
-        
+
     }
 }

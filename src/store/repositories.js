@@ -1,5 +1,4 @@
 import { ApiInstance } from "@/api"
-import { REPOSITORIES_PER_PAGE } from '@/constants'
 
 export default {
     namespaced: true,
@@ -19,7 +18,7 @@ export default {
             try {
                 const response = 
                     await ApiInstance
-                    .get(`/users/${rootGetters['search/searchValue']}/repos?per_page=${REPOSITORIES_PER_PAGE}`)
+                    .get(`/users/${rootGetters['search/getSearchValue']}/repos?per_page=${rootGetters['pagination/getItemsPerPage']}&page=${rootGetters['pagination/getSelectedPage']}`)
                 commit('SET_REPOSITORIES_ARRAY', response.data)
             } catch (error) {
                 console.log(error)

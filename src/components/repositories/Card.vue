@@ -50,24 +50,23 @@ export default {
     border: 1px solid #fff;
     border-radius: 8px;
     width: 300px;
+    cursor: pointer;
     &-inner {
         display: flex;
         flex-flow: column nowrap;
         padding: 10px;
+        height: 100%;
     }
     &-info {
         display: flex;
         flex-flow: column nowrap;
+        height: 100%;
+        justify-content: space-evenly;
         &__item {
-            &:first-child ~ * {
-                margin-top: 10px;
-                margin-left: 10px;
-            }
             &.title {
                 font-weight: 700;
             }
         }
     }
-
 }
 </style>

@@ -9,7 +9,7 @@ export default {
         }
     },
     getters: {
-        searchValue: state => state.searchValue
+        getSearchValue: state => state.searchValue
     },
     actions: {
         setSearchValue({ commit }, value) {
