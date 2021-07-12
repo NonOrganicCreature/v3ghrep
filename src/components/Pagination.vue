@@ -47,11 +47,7 @@ export default {
             pagesToShow: "pagination/getPagesToShow",
             searchValue: "search/getSearchValue",
         }),
-    },
-    watch: {
-        searchValue: "setTotalPage",
-        selectedPage: "setRepositories",
-    },
+    }
 };
 </script>
 <style lang="scss">

@@ -1,16 +1,21 @@
+import { onUnmounted, ref } from 'vue'
 export default function useDebounceMethod() {
-    const debounce = function(fn, interval)  {
-        let timer;
+    const timerRef = ref(0)
+    const debounce = function (fn, interval) {
         return function debounced() {
-            clearTimeout(timer);
+            clearTimeout(timerRef.value);
             let args = arguments;
             let that = this;
-            timer = setTimeout(() => {
+            timerRef.value = setTimeout(() => {
                 fn.apply(that, args);
             }, interval);
         };
     }
+    const clearAfterUnmounted = () => { clearTimeout(timerRef.value) }
+    onUnmounted(clearAfterUnmounted)
+
     return {
-        debounce
+        debounce,
+        clearAfterUnmounted
     }
 }

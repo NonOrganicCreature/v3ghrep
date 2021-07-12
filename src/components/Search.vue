@@ -23,7 +23,7 @@ export default {
     data() {
         const dsFunction = this.debounce(function () {
             this.setRepositories();
-        }, 1000);
+        }.bind(this), 1000);
 
         return {
             debouncedSearch: dsFunction,

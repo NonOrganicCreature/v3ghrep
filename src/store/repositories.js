@@ -24,12 +24,14 @@ export default {
         getSelectedRepository: state => state.selectedRepository,
     },
     actions: {
-        async setRepositories({ commit, rootGetters }) {
+        async setRepositories({ commit, rootGetters, dispatch }) {
             try {
                 const response =
                     await ApiInstance
                         .get(`/users/${rootGetters['search/getSearchValue']}/repos?per_page=${rootGetters['pagination/getItemsPerPage']}&page=${rootGetters['pagination/getSelectedPage']}`)
                 commit('SET_REPOSITORIES_ARRAY', response.data)
+
+                dispatch('pagination/setTotalPage', null, { root: true })
             } catch (error) {
                 console.log(error)
             }
