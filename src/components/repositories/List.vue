@@ -24,6 +24,9 @@ export default {
             default: 'repository'
         }
     },
+    mounted() {
+        this.cardsType === 'repository' ? this.setRepositories() : this.setForks()
+    },
     computed: {
         ...mapGetters({
             repositories: "repositories/getRepositories",
@@ -31,13 +34,13 @@ export default {
             selectedPage: 'pagination/getSelectedPage'
         }),
         cardsByType() {
-            console.log(this.cardsType)
             return this.cardsType === 'repository' ? this.repositories : this.forks
         }
     },
     methods: {
         ...mapActions({
-            setRepositories: 'repositories/setRepositories'
+            setRepositories: 'repositories/setRepositories',
+            setForks: 'repositories/setForks',
         })
     },
     watch: {

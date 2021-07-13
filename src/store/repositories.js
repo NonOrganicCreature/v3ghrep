@@ -1,5 +1,5 @@
 import { ApiInstance } from "@/api"
-
+import { getLastPageFromParams } from "@/utility"
 export default {
     namespaced: true,
     state: {
@@ -26,28 +26,28 @@ export default {
     actions: {
         async setRepositories({ commit, rootGetters, dispatch }) {
             try {
-                const response =
-                    await ApiInstance
-                        .get(`/users/${rootGetters['search/getSearchValue']}/repos?per_page=${rootGetters['pagination/getItemsPerPage']}&page=${rootGetters['pagination/getSelectedPage']}`)
-                commit('SET_REPOSITORIES_ARRAY', response.data)
-
-                dispatch('pagination/setTotalPage', null, { root: true })
+                if (rootGetters['search/getSearchValue']) {
+                    const response =
+                        await ApiInstance
+                            .get(`/users/${rootGetters['search/getSearchValue']}/repos?per_page=${rootGetters['pagination/getItemsPerPage']}&page=${rootGetters['pagination/getSelectedPage']}`)
+                    commit('SET_REPOSITORIES_ARRAY', response.data)
+                    dispatch('pagination/setTotalPage', getLastPageFromParams(response.headers), { root: true })
+                }
             } catch (error) {
                 console.log(error)
             }
         },
         setSelectedRepository({ commit, state, dispatch }, repositoryId) {
             const selectedRepository = state.repositories.filter(repository => repository.id === repositoryId)[0]
-            // trying to keep all logic in vuex so i created another function that sets total page pagination value
-            dispatch('pagination/setForkTotalPage', selectedRepository.forks_count, { root: true })
-
             commit('SET_SELECTED_REPOSITORY', selectedRepository)
         },
-        async setForks({ commit, state, rootGetters }) {
+        async setForks({ dispatch, commit, state, rootGetters }) {
             try {
                 const response =
                     await ApiInstance
                         .get(state.selectedRepository.forks_url.replace(process.env.VUE_APP_API_URL, '') + `?per_page=${rootGetters['pagination/getItemsPerPage']}&page=${rootGetters['pagination/getSelectedPage']}`)
+                
+                dispatch('pagination/setTotalPage', getLastPageFromParams(response.headers), { root: true })
                 commit('SET_FORKS_ARRAY', response.data)
             } catch (error) {
                 console.log(error)
