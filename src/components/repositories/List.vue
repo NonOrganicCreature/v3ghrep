@@ -25,6 +25,7 @@ export default {
         }
     },
     mounted() {
+        
         this.cardsType === 'repository' ? this.setRepositories() : this.setForks()
     },
     computed: {

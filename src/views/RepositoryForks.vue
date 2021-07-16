@@ -16,6 +16,7 @@ export default {
     computed: {
         ...mapGetters({
             forks: "repositories/getForks",
+            searchValue: 'search/getSearchValue'
         }),
     },
     methods: {
@@ -24,6 +25,14 @@ export default {
             setForks: "repositories/setForks",
         }),
     },
+    // if we came from only fork id and haven't searchValue(username)
+    beforeRouteEnter(to, from, next) {
+        next(vm => {
+            if (!vm.searchValue) {
+                vm.$router.push({ name: 'Home' })
+            }
+        })
+    }
 };
 </script>
 <style lang="scss">

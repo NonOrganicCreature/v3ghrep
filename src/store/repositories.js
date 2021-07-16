@@ -37,7 +37,7 @@ export default {
                 console.log(error)
             }
         },
-        setSelectedRepository({ commit, state, dispatch }, repositoryId) {
+        setSelectedRepository({ commit, state }, repositoryId) {
             const selectedRepository = state.repositories.filter(repository => repository.id === repositoryId)[0]
             commit('SET_SELECTED_REPOSITORY', selectedRepository)
         },

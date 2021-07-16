@@ -1,12 +1,16 @@
 <template>
-    <router-link
-        class="card"
-        :to="{ name: 'RepositoryForks', params: { id: preparedCardInfo.id } }"
-    >
+    <div class="card">
         <div class="card-inner">
             <div class="card-info">
                 <div class="card-info__item title">
-                    Name: {{ preparedCardInfo.name }}
+                    Name:
+                    <router-link
+                        :to="{
+                            name: 'RepositoryForks',
+                            params: { id: preparedCardInfo.id },
+                        }"
+                        >{{ preparedCardInfo.name }}
+                    </router-link>
                 </div>
                 <div class="card-info__item">
                     <a :href="preparedCardInfo.html_url">Repository url</a>
@@ -22,7 +26,7 @@
                 </div>
             </div>
         </div>
-    </router-link>
+    </div>
 </template>
 <script>
 export default {
@@ -36,8 +40,8 @@ export default {
         },
         cardType: {
             type: String,
-            default: 'repository'
-        }
+            default: "repository",
+        },
     },
     computed: {
         preparedCardInfo() {
